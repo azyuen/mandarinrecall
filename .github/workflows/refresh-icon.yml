@@ -1,8 +1,7 @@
 name: Refresh home-screen icon
 on:
   push:
-    paths:
-      - '.github/workflows/refresh-icon.yml'
+    branches: [main]
   workflow_dispatch:
 permissions:
   contents: write
