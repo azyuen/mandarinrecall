@@ -8,7 +8,7 @@
 <div class="grid"><div><label for="time">Time</label><select id="time"></select></div><div><label for="person">Person</label><select id="person"></select></div><div><label for="action">Action / description</label><select id="action"></select></div><div id="object-wrap"><label for="object">Destination / sport</label><select id="object"></select></div></div>
 <div class="checkbox"><label><input type="checkbox" id="also"> Include “also / too”</label></div>
 <div class="prompt"><div class="eyebrow">Translate from memory</div><h2 id="english"></h2><div class="muted">Try speaking before revealing the answer.</div></div>
-<div class="actions"><button id="reveal" class="primary">Reveal Mandarin</button><button id="speak" type="button" aria-label="Listen to Mandarin sentence">🔊 Listen</button></div><p id="speech-status" class="muted" role="status" aria-live="polite"></p><div id="answer" class="answer hidden" aria-live="polite"><div class="eyebrow">Mandarin answer</div><div class="hanzi" id="hanzi"></div><div class="pinyin" id="pinyin"></div><div class="actions"><button id="retry">Need practice</button><button id="known" class="primary">Got it</button></div></div>
+<div class="actions"><button id="reveal" class="primary">Reveal Mandarin</button><button id="speak" type="button" aria-label="Listen to Mandarin sentence">🔊 Listen</button></div><div class="grid" style="margin-top:12px"><div><label for="voice">Mandarin voice</label><select id="voice" aria-label="Mandarin voice"><option value="">Default Mandarin voice</option></select></div><div><label for="speed">Speaking speed</label><select id="speed"><option value="0.7">Slow</option><option value="0.9">Normal</option></select></div></div><p id="speech-status" class="muted" role="status" aria-live="polite"></p><div id="answer" class="answer hidden" aria-live="polite"><div class="eyebrow">Mandarin answer</div><div class="hanzi" id="hanzi"></div><div class="pinyin" id="pinyin"></div><div class="actions"><button id="retry">Need practice</button><button id="known" class="primary">Got it</button></div></div>
 <div class="actions"><button id="random">↻ Random challenge</button></div></section>
 <section id="vocab" class="panel hidden"><h2>Vocabulary library</h2><p class="muted">Lessons 1–2. Search English, characters, or pinyin.</p><input type="search" id="search" placeholder="Search vocabulary…" aria-label="Search vocabulary"><div style="margin-top:12px"><label for="category">Category</label><select id="category"></select></div><p class="muted" id="vocab-count"></p><div id="vocab-list"></div></section>
 <section id="progress" class="panel hidden"><h2>Your progress</h2><p>Recalled correctly: <span class="count" id="correct">0</span></p><p>Needs more practice: <span class="count" id="missed">0</span></p><p class="muted">Saved in this browser on this device. It won't sync between devices.</p><button id="reset">Reset counters</button></section>
@@ -52,21 +52,51 @@ $("answer").classList.add("hidden");$("reveal").classList.remove("hidden")}
 // Speak the current Mandarin sentence using the device's built-in speech synthesis.
 // Available in Safari on iOS and most modern browsers; no audio files or API key.
 const speechSupported = "speechSynthesis" in window && "SpeechSynthesisUtterance" in window;
-$("speak").disabled = !speechSupported;
+const speechPrefKey="mandarin-recall-speech-v1";
+let speechPrefs={voice:"",speed:"0.7"};
+try{speechPrefs={...speechPrefs,...JSON.parse(localStorage.getItem(speechPrefKey)||"{}")}}catch{}
+$("speed").value=["0.7","0.9"].includes(speechPrefs.speed)?speechPrefs.speed:"0.7";
+function saveSpeechPrefs(){
+  speechPrefs={voice:$("voice").value,speed:$("speed").value};
+  try{localStorage.setItem(speechPrefKey,JSON.stringify(speechPrefs))}catch{}
+}
+function refreshMandarinVoices(){
+  if(!speechSupported)return;
+  const voices=window.speechSynthesis.getVoices().filter(v=>/^zh([_-]|$)/i.test(v.lang));
+  const selected=$("voice").value||speechPrefs.voice;
+  $("voice").replaceChildren(new Option("Default Mandarin voice",""));
+  voices.forEach(v=>{
+    const label=v.name+" ("+v.lang+")"+(v.localService?"":" · online");
+    $("voice").add(new Option(label,v.voiceURI));
+  });
+  if(voices.some(v=>v.voiceURI===selected))$("voice").value=selected;
+  else $("voice").value="";
+  if(!voices.length)$("speech-status").textContent="No Mandarin voices listed yet. You can still try Listen using your phone's default voice.";
+}
+$("speak").disabled=!speechSupported;
+$("voice").disabled=!speechSupported;
+$("speed").disabled=!speechSupported;
 if(!speechSupported)$("speech-status").textContent="Speech playback is unavailable in this browser.";
+else{
+  refreshMandarinVoices();
+  window.speechSynthesis.addEventListener?.("voiceschanged",refreshMandarinVoices);
+}
+$("voice").addEventListener("change",saveSpeechPrefs);
+$("speed").addEventListener("change",saveSpeechPrefs);
 $("speak").addEventListener("click",()=>{
   if(!speechSupported)return;
   const synth=window.speechSynthesis;
   synth.cancel();
   const utterance=new SpeechSynthesisUtterance($("hanzi").textContent);
   utterance.lang="zh-CN";
-  utterance.rate=0.85;
+  utterance.rate=Number($("speed").value);
   const voices=synth.getVoices();
-  const voice=voices.find(v=>v.lang.toLowerCase()==="zh-cn") || voices.find(v=>v.lang.toLowerCase().startsWith("zh"));
-  if(voice)utterance.voice=voice;
+  const chosen=voices.find(v=>v.voiceURI===$("voice").value);
+  const fallback=voices.find(v=>v.lang.toLowerCase()==="zh-cn")||voices.find(v=>/^zh([_-]|$)/i.test(v.lang));
+  if(chosen||fallback)utterance.voice=chosen||fallback;
   $("speech-status").textContent="Playing Mandarin…";
   utterance.onend=()=>{$("speech-status").textContent=""};
-  utterance.onerror=()=>{$("speech-status").textContent="Unable to play audio. Check that a Mandarin voice is installed on your device."};
+  utterance.onerror=()=>{$("speech-status").textContent="Unable to play audio. Try another Mandarin voice or check your iPhone speech settings."};
   synth.speak(utterance);
 });
 
