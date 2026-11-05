@@ -4,15 +4,15 @@
 :root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#172b40;background:#f3f6f8}*{box-sizing:border-box}body{margin:0}header{background:#152b40;color:white;padding:24px max(18px,calc((100vw - 780px)/2))}h1{margin:0;font-size:1.65rem}header p{margin:6px 0 0;color:#b9d2df}main{max-width:780px;margin:auto;padding:18px}.tabs{display:flex;gap:8px;margin-bottom:18px}.tabs button{flex:1}.panel{background:white;border:1px solid #dde5e9;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 3px 14px #19304408}button,select,input{font:inherit}button{border:1px solid #c7d6df;background:white;color:#183349;padding:11px 15px;border-radius:10px;cursor:pointer}button.primary,.tabs button.active{background:#176d86;color:white;border-color:#176d86}button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #7bc2e2;outline-offset:2px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}label{display:block;font-weight:650;font-size:.9rem;margin-bottom:5px}select,input[type=search]{width:100%;border:1px solid #c7d6df;background:#fff;padding:11px;border-radius:9px}input[type=checkbox]{width:18px;height:18px;vertical-align:middle}.checkbox{margin:16px 0}.prompt{background:#eef5f7;border-radius:12px;text-align:center;padding:23px 12px;margin:18px 0}.eyebrow{color:#537283;text-transform:uppercase;letter-spacing:.08em;font-size:.75rem;font-weight:700}.prompt h2{font-size:1.4rem;margin:12px 0}.answer{text-align:center;border:1px solid #d3e5e9;border-radius:12px;padding:16px;margin-top:14px}.hanzi{font-size:1.8rem;font-weight:650;margin:8px}.pinyin{font-size:1.05rem;color:#38677c}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}.muted{color:#607988;font-size:.9rem}.hidden{display:none!important}.vocab-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;border-bottom:1px solid #e7edf0;padding:12px 0}.vocab-row:last-child{border:0}.word{font-size:1.2rem;font-weight:650}.category{color:#607988;font-size:.8rem}.count{font-weight:700}.tag{background:#eaf3f6;border-radius:7px;padding:3px 7px;display:inline-block;font-size:.78rem}.footer{font-size:.8rem;color:#627887;text-align:center;padding:12px} @media(max-width:440px){.grid{grid-template-columns:1fr}.panel{padding:16px}header{padding:22px 18px}} 
 </style></head><body><header><h1>Mandarin Recall</h1><p>Learn the rules. Recall the words. Build your own sentences.</p></header><main>
 <nav class="tabs" aria-label="App tabs"><button class="active" data-tab="practice">Practice</button><button data-tab="vocab">Vocabulary</button><button data-tab="progress">Progress</button></nav>
-<section id="practice" class="panel"><h2>Sentence builder</h2><p class="muted">Choose English components, say the Mandarin aloud from memory, then reveal.</p>
+<section id="practice" class="panel"><h2>Sentence builder</h2><label for="practice-mode">Practice mode</label><select id="practice-mode"><option value="builder">Original sentence builder</option><option value="conversation">Day 2 · Conversation patterns</option></select><div id="conversation-practice" class="hidden"><p class="muted">Short, natural sentences from today's walking conversation. Recall first, then reveal or listen.</p><label for="pattern">Sentence structure</label><select id="pattern"></select><div class="prompt"><div class="eyebrow" id="pattern-name">Conversation practice</div><h2 id="conversation-english"></h2></div><div class="actions"><button id="conversation-reveal" class="primary">Reveal Mandarin</button><button id="conversation-speak">🔊 Listen</button><button id="conversation-random">↻ Another sentence</button></div><div id="conversation-answer" class="answer hidden"><div class="hanzi" id="conversation-hanzi"></div><div class="pinyin" id="conversation-pinyin"></div><div class="actions"><button id="conversation-retry">Need practice</button><button id="conversation-known" class="primary">Got it</button></div></div></div><div id="builder-practice"><p class="muted">Choose English components, say the Mandarin aloud from memory, then reveal.</p>
 <div class="grid"><div><label for="time">Time</label><select id="time"></select></div><div><label for="person">Person</label><select id="person"></select></div><div><label for="action">Action / description</label><select id="action"></select></div><div id="object-wrap"><label for="object">Destination / sport</label><select id="object"></select></div></div>
 <div class="checkbox"><label><input type="checkbox" id="also"> Include “also / too”</label></div>
 <div class="prompt"><div class="eyebrow">Translate from memory</div><h2 id="english"></h2><div class="muted">Try speaking before revealing the answer.</div></div>
 <div class="actions"><button id="reveal" class="primary">Reveal Mandarin</button><button id="speak" type="button" aria-label="Listen to Mandarin sentence">🔊 Listen</button></div><div class="grid" style="margin-top:12px"><div><label for="voice">Mandarin voice</label><select id="voice" aria-label="Mandarin voice"><option value="">Default Mandarin voice</option></select></div><div><label for="speed">Speaking speed</label><select id="speed"><option value="0.7">Slow</option><option value="0.9">Normal</option></select></div></div><p id="speech-status" class="muted" role="status" aria-live="polite"></p><div id="answer" class="answer hidden" aria-live="polite"><div class="eyebrow">Mandarin answer</div><div class="hanzi" id="hanzi"></div><div class="pinyin" id="pinyin"></div><div class="actions"><button id="retry">Need practice</button><button id="known" class="primary">Got it</button></div></div>
-<div class="actions"><button id="random">↻ Random challenge</button></div></section>
-<section id="vocab" class="panel hidden"><h2>Vocabulary library</h2><p class="muted">Lessons 1–2. Search English, characters, or pinyin.</p><input type="search" id="search" placeholder="Search vocabulary…" aria-label="Search vocabulary"><div style="margin-top:12px"><label for="category">Category</label><select id="category"></select></div><p class="muted" id="vocab-count"></p><div id="vocab-list"></div></section>
+<div class="actions"><button id="random">↻ Random challenge</button></div></div></section>
+<section id="vocab" class="panel hidden"><h2>Vocabulary library</h2><p class="muted">Lessons 1–2, including today’s conversation. Search English, characters, or pinyin.</p><input type="search" id="search" placeholder="Search vocabulary…" aria-label="Search vocabulary"><div style="margin-top:12px"><label for="category">Category</label><select id="category"></select></div><p class="muted" id="vocab-count"></p><div id="vocab-list"></div></section>
 <section id="progress" class="panel hidden"><h2>Your progress</h2><p>Recalled correctly: <span class="count" id="correct">0</span></p><p>Needs more practice: <span class="count" id="missed">0</span></p><p class="muted">Saved in this browser on this device. It won't sync between devices.</p><button id="reset">Reset counters</button></section>
-<div class="footer">Mandarin Recall · v1 · Add future lessons in the vocabulary data below.</div></main>
+<div class="footer">Mandarin Recall · v2 · Conversation patterns and sentence builder.</div></main>
 <script>
 "use strict";
 // Extend these structured arrays with new lessons. No backend required.
@@ -37,7 +37,8 @@ const vocab=[
 ["Grammar","Also / too","也","yě"],["Grammar","But","但是","dànshì"],["Grammar","Not","不","bù"],["Grammar","Very","很","hěn"],["Grammar","Too / excessively","太","tài"],["Grammar","And you?","你呢","nǐ ne"],
 ["Actions","Go to","去","qù"],["Actions","Walk","走路","zǒu lù"],["Actions","Live in","住在","zhù zài"],["Actions","Play (ball sports)","打","dǎ"],["Actions","Like","喜欢","xǐhuān"],["Actions","Eat a meal","吃饭","chī fàn"],["Actions","Ride / take transport","坐","zuò"],["Actions","Go home","回家","huí jiā"],["Actions","Do","做","zuò"],["Actions","Don't need to","不用","bú yòng"],["Actions","Go to work","上班","shàngbān"],
 ["Places & sports","Work / job","工作","gōngzuò"],["Places & sports","Tennis","网球","wǎngqiú"],["Places & sports","Basketball","篮球","lánqiú"],["Places & sports","Train station","火车站","huǒchēzhàn"],["Places & sports","Train","火车","huǒchē"],["Places & sports","Australia","澳大利亚","Àodàlìyà"],["Places & sports","Melbourne","墨尔本","Mò'ěrběn"],["Places & sports","Taiwan","台湾","Táiwān"],["Places & sports","School","学校","xuéxiào"],
-["Descriptions","Busy","忙","máng"],["Descriptions","Very busy","很忙","hěn máng"],["Descriptions","Not busy","不忙","bù máng"],["Descriptions","Not too busy","不太忙","bú tài máng"],["Descriptions","Good / well","很好","hěn hǎo"],["Greetings","Hello","你好","nǐ hǎo"],["Greetings","Goodbye","再见","zàijiàn"],["Greetings","Take care on the way","路上小心","lùshang xiǎoxīn"]];
+["Descriptions","Busy","忙","máng"],["Descriptions","Very busy","很忙","hěn máng"],["Descriptions","Not busy","不忙","bù máng"],["Descriptions","Not too busy","不太忙","bú tài máng"],["Descriptions","Good / well","很好","hěn hǎo"],["Greetings","Hello","你好","nǐ hǎo"],["Greetings","Goodbye","再见","zàijiàn"],["Greetings","Take care on the way","路上小心","lùshang xiǎoxīn"],
+["Time","Often","常常","chángcháng"],["Time","Now / right now","现在","xiànzài"],["Questions","Where?","哪儿","nǎr"],["Questions","What?","什么","shénme"],["Questions","Question particle","吗","ma"],["Responses","Yes / correct","对","duì"],["Responses","No / not","不","bù"],["Responses","Thank you","谢谢","xièxie"],["Responses","No need","不用了","bú yòng le"],["Responses","I don’t know","我不知道","wǒ bù zhīdào"],["Actions","Understand","懂","dǒng"],["Actions","Understand now","懂了","dǒng le"],["Actions","Want to","想","xiǎng"],["Actions","Return / go back","回","huí"],["Actions","Arrive","到","dào"],["Actions","Arrived home","到家了","dào jiā le"],["Actions","Drive","开车","kāichē"],["Actions","Walk home","走路回家","zǒulù huí jiā"],["Actions","Cook / prepare a meal","做饭","zuòfàn"],["Actions","Eat","吃","chī"],["Actions","Eat lunch","吃午饭","chī wǔfàn"],["Actions","Give someone a ride","开车送","kāichē sòng"],["Actions","Know","知道","zhīdào"],["Actions","Can / may","可以","kěyǐ"],["People","Wife","老婆","lǎopo"],["People","Family","家人","jiārén"],["Places & sports","Home","家","jiā"],["Places & sports","Vermont","佛蒙特","Fóméngtè"],["Food","Lunch","午饭","wǔfàn"],["Food","Rice (cooked)","米饭","mǐfàn"],["Grammar","Change / completion particle","了","le"],["Grammar","Just / then","就","jiù"],["Grammar","Together","一起","yìqǐ"],["Grammar","With (someone)","跟","gēn"]];
 const $=id=>document.getElementById(id);
 const fill=(el,items)=>{el.replaceChildren(...items.map((x,i)=>{const o=document.createElement("option");o.value=i;o.textContent=x[0];return o}))};
 fill($("time"),times);fill($("person"),persons);fill($("action"),actions.map(a=>[a.en]));
@@ -101,6 +102,88 @@ $("speak").addEventListener("click",()=>{
 });
 
 $("reveal").onclick=()=>{$("answer").classList.remove("hidden");$("reveal").classList.add("hidden")};
+
+const conversationPatterns=[
+["Where / location","Where do you live?","你住在哪儿？","Nǐ zhù zài nǎr?"],
+["Where / location","I live in Vermont.","我住在佛蒙特。","Wǒ zhù zài Fóméngtè."],
+["Where / location","Where are you going now?","你现在去哪儿？","Nǐ xiànzài qù nǎr?"],
+["Where / location","I'm walking home now.","现在我走路回家。","Xiànzài wǒ zǒulù huí jiā."],
+["Where / location","I'm walking to work now.","现在我走路去工作。","Xiànzài wǒ zǒulù qù gōngzuò."],
+["Where / location","This morning, I walked to the train station.","今天早上我走路去了火车站。","Jīntiān zǎoshang wǒ zǒulù qù le huǒchēzhàn."],
+["Where / location","I'm home now.","现在我到家了。","Xiànzài wǒ dào jiā le."],
+["Where / location","I'm driving home tonight.","今天晚上我开车回家。","Jīntiān wǎnshang wǒ kāichē huí jiā."],
+["Where / location","Are you going home now?","你现在回家吗？","Nǐ xiànzài huí jiā ma?"],
+["Where / location","Do you drive?","你开车吗？","Nǐ kāichē ma?"],
+["Where / location","No, I don't drive.","不，我不开车。","Bù, wǒ bù kāichē."],
+["Hobbies / habits","I like playing tennis.","我喜欢打网球。","Wǒ xǐhuān dǎ wǎngqiú."],
+["Hobbies / habits","I also like playing tennis.","我也喜欢打网球。","Wǒ yě xǐhuān dǎ wǎngqiú."],
+["Hobbies / habits","Do you often walk?","你常常走路吗？","Nǐ chángcháng zǒulù ma?"],
+["Hobbies / habits","I also often walk.","我也常常走路。","Wǒ yě chángcháng zǒulù."],
+["Hobbies / habits","Do you like tennis?","你喜欢网球吗？","Nǐ xǐhuān wǎngqiú ma?"],
+["Food / meals","I'm walking to get lunch now.","现在我走路去吃午饭。","Xiànzài wǒ zǒulù qù chī wǔfàn."],
+["Food / meals","What are you eating tonight?","今天晚上你吃什么？","Jīntiān wǎnshang nǐ chī shénme?"],
+["Food / meals","I eat rice.","我吃米饭。","Wǒ chī mǐfàn."],
+["Food / meals","I don't know.","我不知道。","Wǒ bù zhīdào."],
+["Food / meals","My wife is cooking.","我老婆在做饭。","Wǒ lǎopo zài zuòfàn."],
+["Work / descriptions","Is work busy?","工作忙吗？","Gōngzuò máng ma?"],
+["Work / descriptions","My work isn't busy.","我的工作不忙。","Wǒ de gōngzuò bù máng."],
+["Work / descriptions","Work isn't too busy.","工作不太忙。","Gōngzuò bú tài máng."],
+["Work / descriptions","I'm also not too busy.","我也不太忙。","Wǒ yě bú tài máng."],
+["Questions / responses","Do you understand?","你懂吗？","Nǐ dǒng ma?"],
+["Questions / responses","I don't understand.","我不懂。","Wǒ bù dǒng."],
+["Questions / responses","I understand now!","我懂了！","Wǒ dǒng le!"],
+["Questions / responses","And you?","你呢？","Nǐ ne?"],
+["Questions / responses","Yes, that's right.","对。","Duì."],
+["Questions / responses","Thanks, no need.","谢谢，不用了。","Xièxie, bú yòng le."],
+["Questions / responses","Walking is fine.","我走路就好。","Wǒ zǒulù jiù hǎo."],
+["Questions / responses","Can I give you a ride?","我可以开车送你吗？","Wǒ kěyǐ kāichē sòng nǐ ma?"],
+["Questions / responses","Goodbye!","再见！","Zàijiàn!"]
+];
+const patternCategories=["All structures",...new Set(conversationPatterns.map(x=>x[0]))];
+$("pattern").replaceChildren(...patternCategories.map((name,i)=>new Option(name,String(i))));
+let currentConversation=0;
+function pickConversation(){
+ const cat=patternCategories[Number($("pattern").value)];
+ const eligible=conversationPatterns.map((item,i)=>({item,i})).filter(x=>cat==="All structures"||x.item[0]===cat);
+ const choices=eligible.filter(x=>x.i!==currentConversation);
+ const pool=choices.length?choices:eligible;
+ currentConversation=pool[Math.floor(Math.random()*pool.length)].i;
+ renderConversation();
+}
+function renderConversation(){
+ const [category,en,zh,py]=conversationPatterns[currentConversation];
+ $("pattern-name").textContent=category;
+ $("conversation-english").textContent=en;
+ $("conversation-hanzi").textContent=zh;
+ $("conversation-pinyin").textContent=py;
+ $("conversation-answer").classList.add("hidden");
+ $("conversation-reveal").classList.remove("hidden");
+}
+$("practice-mode").addEventListener("change",()=>{
+ const conversation=$("practice-mode").value==="conversation";
+ $("builder-practice").classList.toggle("hidden",conversation);
+ $("conversation-practice").classList.toggle("hidden",!conversation);
+});
+$("pattern").addEventListener("change",pickConversation);
+$("conversation-random").addEventListener("click",pickConversation);
+$("conversation-reveal").addEventListener("click",()=>{
+ $("conversation-answer").classList.remove("hidden");
+ $("conversation-reveal").classList.add("hidden");
+});
+$("conversation-speak").addEventListener("click",()=>{
+ if(!speechSupported)return;
+ window.speechSynthesis.cancel();
+ const utterance=new SpeechSynthesisUtterance(conversationPatterns[currentConversation][2]);
+ utterance.lang="zh-CN";utterance.rate=Number($("speed").value);
+ const voices=window.speechSynthesis.getVoices();
+ utterance.voice=voices.find(v=>v.voiceURI===$("voice").value)||voices.find(v=>v.lang.toLowerCase()==="zh-cn")||voices.find(v=>/^zh([_-]|$)/i.test(v.lang))||null;
+ window.speechSynthesis.speak(utterance);
+});
+$("conversation-speak").disabled=!speechSupported;
+$("conversation-known").addEventListener("click",()=>{progress.correct++;updateProgress();pickConversation()});
+$("conversation-retry").addEventListener("click",()=>{progress.missed++;updateProgress();pickConversation()});
+pickConversation();
+
 const storageKey="mandarin-recall-v1";let progress;try{progress=JSON.parse(localStorage.getItem(storageKey))||{correct:0,missed:0}}catch{progress={correct:0,missed:0}}
 function updateProgress(){$("correct").textContent=progress.correct;$("missed").textContent=progress.missed;try{localStorage.setItem(storageKey,JSON.stringify(progress))}catch{}}
 $("known").onclick=()=>{progress.correct++;updateProgress();$("answer").classList.add("hidden");$("reveal").classList.remove("hidden")};$("retry").onclick=()=>{progress.missed++;updateProgress();$("answer").classList.add("hidden");$("reveal").classList.remove("hidden")};
