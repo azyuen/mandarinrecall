@@ -184,6 +184,36 @@ $("conversation-known").addEventListener("click",()=>{progress.correct++;updateP
 $("conversation-retry").addEventListener("click",()=>{progress.missed++;updateProgress();pickConversation()});
 pickConversation();
 
+// Day 3: contrast being somewhere, going somewhere, and returning somewhere.
+// These are curated examples rather than unrestricted word combinations.
+const locationPatterns=[
+["At a place + activity","We are working at home now.","我们现在在家工作。","Wǒmen xiànzài zài jiā gōngzuò.","Person + Time + 在 + Place + Activity"],
+["At a place + activity","I am working at home now.","我现在在家工作。","Wǒ xiànzài zài jiā gōngzuò.","Person + Time + 在 + Place + Activity"],
+["At a place + activity","Now I am working at home.","现在我在家工作。","Xiànzài wǒ zài jiā gōngzuò.","Time + Person + 在 + Place + Activity"],
+["At a place + activity","I am at home now.","我现在在家。","Wǒ xiànzài zài jiā.","Person + Time + 在 + Place"],
+["At a place + activity","We are at home now.","我们现在在家。","Wǒmen xiànzài zài jiā.","Person + Time + 在 + Place"],
+["At a place + activity","I am in the car now.","我现在在车上。","Wǒ xiànzài zài chē shàng.","Person + Time + 在 + Place"],
+["Go somewhere + activity","We are going home to work now.","我们现在回家工作。","Wǒmen xiànzài huí jiā gōngzuò.","Person + Time + 回家 + Activity"],
+["Go somewhere + activity","I am going home to work now.","我现在回家工作。","Wǒ xiànzài huí jiā gōngzuò.","Person + Time + 回家 + Activity"],
+["Go somewhere + activity","I am going to the hospital to visit my aunt.","我去医院看阿姨。","Wǒ qù yīyuàn kàn āyí.","Person + 去 + Place + Activity"],
+["Go somewhere + activity","I am going to the tennis court now.","我现在去网球场。","Wǒ xiànzài qù wǎngqiúchǎng.","Person + Time + 去 + Place"],
+["Go somewhere + activity","We are walking to the tennis court.","我们走路去网球场。","Wǒmen zǒulù qù wǎngqiúchǎng.","Person + Method + 去 + Place"],
+["Return home","We are driving home now.","我们现在开车回家。","Wǒmen xiànzài kāichē huí jiā.","Person + Time + Method + 回家"],
+["Return home","I am driving home now.","我现在开车回家。","Wǒ xiànzài kāichē huí jiā.","Person + Time + Method + 回家"],
+["Return home","I am walking home now.","我现在走路回家。","Wǒ xiànzài zǒulù huí jiā.","Person + Time + Method + 回家"]
+];
+const existingConversation=conversationPatterns.map(x=>[...x,""]);
+conversationPatterns.push(...locationPatterns.map(x=>x.slice(0,4)));
+patternCategories.push(...["At a place + activity","Go somewhere + activity","Return home"]);
+$("pattern").replaceChildren(...patternCategories.map((name,i)=>new Option(name,String(i))));
+const locationStructure=new Map(locationPatterns.map(x=>[x[2],x[4]]));
+const originalRenderConversation=renderConversation;
+renderConversation=function(){
+ originalRenderConversation();
+ const structure=locationStructure.get(conversationPatterns[currentConversation][2]);
+ if(structure)$("pattern-name").textContent=structure;
+};
+
 const storageKey="mandarin-recall-v1";let progress;try{progress=JSON.parse(localStorage.getItem(storageKey))||{correct:0,missed:0}}catch{progress={correct:0,missed:0}}
 function updateProgress(){$("correct").textContent=progress.correct;$("missed").textContent=progress.missed;try{localStorage.setItem(storageKey,JSON.stringify(progress))}catch{}}
 $("known").onclick=()=>{progress.correct++;updateProgress();$("answer").classList.add("hidden");$("reveal").classList.remove("hidden")};$("retry").onclick=()=>{progress.missed++;updateProgress();$("answer").classList.add("hidden");$("reveal").classList.remove("hidden")};
