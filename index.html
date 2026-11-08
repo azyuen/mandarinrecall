@@ -12,7 +12,7 @@
 <div class="actions"><button id="random">↻ Random challenge</button></div></div></section>
 <section id="vocab" class="panel hidden"><h2>Vocabulary library</h2><p class="muted">Lessons 1–2, including today’s conversation. Search English, characters, or pinyin.</p><input type="search" id="search" placeholder="Search vocabulary…" aria-label="Search vocabulary"><div style="margin-top:12px"><label for="category">Category</label><select id="category"></select></div><p class="muted" id="vocab-count"></p><div id="vocab-list"></div></section>
 <section id="progress" class="panel hidden"><h2>Your progress</h2><p>Recalled correctly: <span class="count" id="correct">0</span></p><p>Needs more practice: <span class="count" id="missed">0</span></p><p class="muted">Saved in this browser on this device. It won't sync between devices.</p><button id="reset">Reset counters</button></section>
-<div class="footer">Mandarin Recall · v2 · Conversation patterns and sentence builder.</div></main>
+<div class="footer">Mandarin Recall · v3 · Conversation patterns, 然后, and sentence builder.</div></main>
 <script>
 "use strict";
 // Extend these structured arrays with new lessons. No backend required.
@@ -38,7 +38,7 @@ const vocab=[
 ["Actions","Go to","去","qù"],["Actions","Walk","走路","zǒu lù"],["Actions","Live in","住在","zhù zài"],["Actions","Play (ball sports)","打","dǎ"],["Actions","Like","喜欢","xǐhuān"],["Actions","Eat a meal","吃饭","chī fàn"],["Actions","Ride / take transport","坐","zuò"],["Actions","Go home","回家","huí jiā"],["Actions","Do","做","zuò"],["Actions","Don't need to","不用","bú yòng"],["Actions","Go to work","上班","shàngbān"],
 ["Places & sports","Work / job","工作","gōngzuò"],["Places & sports","Tennis","网球","wǎngqiú"],["Places & sports","Basketball","篮球","lánqiú"],["Places & sports","Train station","火车站","huǒchēzhàn"],["Places & sports","Train","火车","huǒchē"],["Places & sports","Australia","澳大利亚","Àodàlìyà"],["Places & sports","Melbourne","墨尔本","Mò'ěrběn"],["Places & sports","Taiwan","台湾","Táiwān"],["Places & sports","School","学校","xuéxiào"],
 ["Descriptions","Busy","忙","máng"],["Descriptions","Very busy","很忙","hěn máng"],["Descriptions","Not busy","不忙","bù máng"],["Descriptions","Not too busy","不太忙","bú tài máng"],["Descriptions","Good / well","很好","hěn hǎo"],["Greetings","Hello","你好","nǐ hǎo"],["Greetings","Goodbye","再见","zàijiàn"],["Greetings","Take care on the way","路上小心","lùshang xiǎoxīn"],
-["Time","Often","常常","chángcháng"],["Time","Now / right now","现在","xiànzài"],["Questions","Where?","哪儿","nǎr"],["Questions","What?","什么","shénme"],["Questions","Question particle","吗","ma"],["Responses","Yes / correct","对","duì"],["Responses","No / not","不","bù"],["Responses","Thank you","谢谢","xièxie"],["Responses","No need","不用了","bú yòng le"],["Responses","I don’t know","我不知道","wǒ bù zhīdào"],["Actions","Understand","懂","dǒng"],["Actions","Understand now","懂了","dǒng le"],["Actions","Want to","想","xiǎng"],["Actions","Return / go back","回","huí"],["Actions","Arrive","到","dào"],["Actions","Arrived home","到家了","dào jiā le"],["Actions","Drive","开车","kāichē"],["Actions","Walk home","走路回家","zǒulù huí jiā"],["Actions","Cook / prepare a meal","做饭","zuòfàn"],["Actions","Eat","吃","chī"],["Actions","Eat lunch","吃午饭","chī wǔfàn"],["Actions","Give someone a ride","开车送","kāichē sòng"],["Actions","Know","知道","zhīdào"],["Actions","Can / may","可以","kěyǐ"],["People","Wife","老婆","lǎopo"],["People","Family","家人","jiārén"],["Places & sports","Home","家","jiā"],["Places & sports","Vermont","佛蒙特","Fóméngtè"],["Food","Lunch","午饭","wǔfàn"],["Food","Rice (cooked)","米饭","mǐfàn"],["Grammar","Change / completion particle","了","le"],["Grammar","Just / then","就","jiù"],["Grammar","Together","一起","yìqǐ"],["Grammar","With (someone)","跟","gēn"]];
+["Time","Often","常常","chángcháng"],["Time","Now / right now","现在","xiànzài"],["Questions","Where?","哪儿","nǎr"],["Questions","What?","什么","shénme"],["Questions","Question particle","吗","ma"],["Responses","Yes / correct","对","duì"],["Responses","No / not","不","bù"],["Responses","Thank you","谢谢","xièxie"],["Responses","No need","不用了","bú yòng le"],["Responses","I don’t know","我不知道","wǒ bù zhīdào"],["Actions","Understand","懂","dǒng"],["Actions","Understand now","懂了","dǒng le"],["Actions","Want to","想","xiǎng"],["Actions","Return / go back","回","huí"],["Actions","Arrive","到","dào"],["Actions","Arrived home","到家了","dào jiā le"],["Actions","Drive","开车","kāichē"],["Actions","Walk home","走路回家","zǒulù huí jiā"],["Actions","Cook / prepare a meal","做饭","zuòfàn"],["Actions","Eat","吃","chī"],["Actions","Eat lunch","吃午饭","chī wǔfàn"],["Actions","Give someone a ride","开车送","kāichē sòng"],["Actions","Know","知道","zhīdào"],["Actions","Can / may","可以","kěyǐ"],["People","Wife","老婆","lǎopo"],["People","Family","家人","jiārén"],["Places & sports","Home","家","jiā"],["Places & sports","Vermont","佛蒙特","Fóméngtè"],["Food","Lunch","午饭","wǔfàn"],["Food","Rice (cooked)","米饭","mǐfàn"],["Grammar","Change / completion particle","了","le"],["Grammar","Just / then","就","jiù"],["Grammar","Then / after that","然后","ránhòu"],["Grammar","Together","一起","yìqǐ"],["Grammar","With (someone)","跟","gēn"]];
 const $=id=>document.getElementById(id);
 const fill=(el,items)=>{el.replaceChildren(...items.map((x,i)=>{const o=document.createElement("option");o.value=i;o.textContent=x[0];return o}))};
 fill($("time"),times);fill($("person"),persons);fill($("action"),actions.map(a=>[a.en]));
@@ -202,9 +202,21 @@ const locationPatterns=[
 ["Return home","I am driving home now.","我现在开车回家。","Wǒ xiànzài kāichē huí jiā.","Person + Time + Method + 回家"],
 ["Return home","I am walking home now.","我现在走路回家。","Wǒ xiànzài zǒulù huí jiā.","Person + Time + Method + 回家"]
 ];
+// Day 4: 然后 (ránhòu) connects two successive actions; it does not mean "go".
+const thenPatterns=[
+["Then / sequence","I go home, then I work.","我回家，然后我工作。","Wǒ huí jiā, ránhòu wǒ gōngzuò."],
+["Then / sequence","I drive home, then work.","我开车回家，然后工作。","Wǒ kāichē huí jiā, ránhòu gōngzuò."],
+["Then / sequence","Today I drive home, then work.","今天我开车回家，然后工作。","Jīntiān wǒ kāichē huí jiā, ránhòu gōngzuò."],
+["Then / sequence","I'm going home now, then I'll work at home.","我现在回家，然后在家工作。","Wǒ xiànzài huí jiā, ránhòu zài jiā gōngzuò."],
+["Then / sequence","Tonight I play tennis, then go home.","今天晚上我打网球，然后回家。","Jīntiān wǎnshang wǒ dǎ wǎngqiú, ránhòu huí jiā."],
+["Then / sequence","I eat, then sleep.","我吃饭，然后睡觉。","Wǒ chīfàn, ránhòu shuìjiào."],
+["Then / sequence","We go home, then work at home.","我们回家，然后在家工作。","Wǒmen huí jiā, ránhòu zài jiā gōngzuò."],
+["Then / sequence","I play tennis, then I go home.","我打网球，然后我回家。","Wǒ dǎ wǎngqiú, ránhòu wǒ huí jiā."]
+];
+conversationPatterns.push(...thenPatterns);
 const existingConversation=conversationPatterns.map(x=>[...x,""]);
 conversationPatterns.push(...locationPatterns.map(x=>x.slice(0,4)));
-patternCategories.push(...["At a place + activity","Go somewhere + activity","Return home"]);
+patternCategories.push(...["At a place + activity","Go somewhere + activity","Return home","Then / sequence"]);
 $("pattern").replaceChildren(...patternCategories.map((name,i)=>new Option(name,String(i))));
 const locationStructure=new Map(locationPatterns.map(x=>[x[2],x[4]]));
 const originalRenderConversation=renderConversation;
