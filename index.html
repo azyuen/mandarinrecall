@@ -1,12 +1,14 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#152b40"><title>Mandarin Recall</title><link rel="icon" href="./icon.png"><link rel="apple-touch-icon" href="./apple-touch-icon.png"><style>
 :root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#172b40;background:#f3f6f8}*{box-sizing:border-box}body{margin:0}header{background:#152b40;color:white;padding:24px max(18px,calc((100vw - 780px)/2))}h1{margin:0;font-size:1.65rem}header p{margin:6px 0 0;color:#b9d2df}main{max-width:780px;margin:auto;padding:18px}.tabs{display:flex;gap:8px;margin-bottom:18px}.tabs button{flex:1}.panel{background:white;border:1px solid #dde5e9;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 3px 14px #19304408}button,select,input{font:inherit}button{border:1px solid #c7d6df;background:white;color:#183349;padding:11px 15px;border-radius:10px;cursor:pointer}button.primary,.tabs button.active{background:#176d86;color:white;border-color:#176d86}button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #7bc2e2;outline-offset:2px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}label{display:block;font-weight:650;font-size:.9rem;margin-bottom:5px}select,input[type=search]{width:100%;border:1px solid #c7d6df;background:#fff;padding:11px;border-radius:9px}input[type=checkbox]{width:18px;height:18px;vertical-align:middle}.checkbox{margin:16px 0}.prompt{background:#eef5f7;border-radius:12px;text-align:center;padding:23px 12px;margin:18px 0}.eyebrow{color:#537283;text-transform:uppercase;letter-spacing:.08em;font-size:.75rem;font-weight:700}.prompt h2{font-size:1.4rem;margin:12px 0}.answer{text-align:center;border:1px solid #d3e5e9;border-radius:12px;padding:16px;margin-top:14px}.hanzi{font-size:1.8rem;font-weight:650;margin:8px}.pinyin{font-size:1.05rem;color:#38677c}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}.muted{color:#607988;font-size:.9rem}.hidden{display:none!important}.vocab-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;border-bottom:1px solid #e7edf0;padding:12px 0}.vocab-row:last-child{border:0}.word{font-size:1.2rem;font-weight:650}.category{color:#607988;font-size:.8rem}.count{font-weight:700}.tag{background:#eaf3f6;border-radius:7px;padding:3px 7px;display:inline-block;font-size:.78rem}.footer{font-size:.8rem;color:#627887;text-align:center;padding:12px} @media(max-width:440px){.grid{grid-template-columns:1fr}.panel{padding:16px}header{padding:22px 18px}} 
 </style>
-<style>.structure-hint{color:#38677c;font-size:.88rem;margin:8px 0}.stats{display:flex;gap:12px;flex-wrap:wrap}.stats>div{background:#eef5f7;border-radius:10px;padding:12px;flex:1}.chip{display:inline-block;background:#eaf3f6;border-radius:8px;padding:5px 9px;margin:4px;font-size:.85rem}.controls{display:flex;gap:10px;flex-wrap:wrap}.controls button{flex:1}.prompt h2{line-height:1.4}.small{font-size:.86rem;color:#607988}</style></head><body><header><h1>Mandarin Recall</h1><p>Learn the rules. Recall the words. Build your own sentences.</p></header><main>
+<style>.structure-hint{color:#38677c;font-size:.88rem;margin:8px 0}.stats{display:flex;gap:12px;flex-wrap:wrap}.stats>div{background:#eef5f7;border-radius:10px;padding:12px;flex:1}.chip{display:inline-block;background:#eaf3f6;border-radius:8px;padding:5px 9px;margin:4px;font-size:.85rem}.controls{display:flex;gap:10px;flex-wrap:wrap}.controls button{flex:1}.prompt h2{line-height:1.4}.small{font-size:.86rem;color:#607988}</style><style>
+.mark-picker{margin-top:12px;border-top:1px solid #d3e5e9;padding-top:12px}.mark-picker p{font-size:.83rem;color:#537283;margin:4px 0 10px}.mark-tokens{display:flex;flex-wrap:wrap;justify-content:center;gap:5px}.mark-token{font-size:1.18rem;padding:8px 9px;min-width:36px;border-radius:9px;border:1px solid #c7d6df;background:#fff}.mark-token.selected{background:#fce5a3;border-color:#b47b00;color:#3c2a00}.mark-token.flagged{box-shadow:inset 0 -4px #e5a800}.mark-save{margin-top:10px}.mark-list{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.mark-list button{background:#fff4d6;border-color:#d6a83e}.mark-row{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid #e7edf0}.mark-row button{font-size:.8rem;padding:7px}.mark-feedback{font-size:.82rem;color:#176d86;margin-top:7px}
+</style></head><body><header><h1>Mandarin Recall</h1><p>Learn the rules. Recall the words. Build your own sentences.</p></header><main>
 <nav class="tabs" aria-label="App tabs"><button class="active" data-tab="test">Test</button><button data-tab="structures">Structures</button><button data-tab="vocab">Words</button><button data-tab="progress">Progress</button></nav>
 <section id="test" class="panel"><h2>Random recall test</h2><p class="muted">Everything you've learned, across all six sentence structures. Say the Mandarin before revealing it.</p><div id="test-workspace"></div></section>
 <section id="structures" class="panel hidden"><h2>Practice a structure</h2><label for="structure-choice">Sentence equation</label><select id="structure-choice"></select><p class="structure-hint" id="structure-equation"></p><div id="structure-workspace"></div></section>
 <section id="vocab" class="panel hidden"><h2>Vocabulary library</h2><p class="muted">Search everything you've learned in English, characters, or pinyin.</p><input type="search" id="search" placeholder="Search vocabulary…" aria-label="Search vocabulary"><div style="margin-top:12px"><label for="category">Category</label><select id="category"></select></div><p class="muted" id="vocab-count"></p><div id="vocab-list"></div></section>
-<section id="progress" class="panel hidden"><h2>Your progress</h2><div class="stats"><div>Recalled correctly<br><strong id="correct">0</strong></div><div>Needs practice<br><strong id="missed">0</strong></div></div><h3>By structure</h3><div id="structure-stats"></div><p class="muted">Saved on this device. Existing recall counters are preserved.</p><button id="reset">Reset counters</button></section>
+<section id="progress" class="panel hidden"><h2>Your progress</h2><div class="stats"><div>Recalled correctly<br><strong id="correct">0</strong></div><div>Needs practice<br><strong id="missed">0</strong></div></div><h3>Highlighted words and phrases</h3><div id="highlighted-list"></div><h3>By structure</h3><div id="structure-stats"></div><p class="muted">Saved on this device. Existing recall counters are preserved.</p><button id="reset">Reset counters</button></section>
 <div class="footer">Mandarin Recall · Sentence equations · Six structures</div></main><script>
 "use strict";
 const times=[["Today","今天","jīntiān"],["Tomorrow","明天","míngtiān"],["Now","现在","xiànzài"],["This morning","今天早上","jīntiān zǎoshang"],["Tonight","今天晚上","jīntiān wǎnshang"],["These days","这几天","zhè jǐ tiān"]];
@@ -163,16 +165,29 @@ const save=()=>{try{localStorage.setItem(storageKey,JSON.stringify(progress))}ca
 // Adaptive recall: preserve existing counters and store sentence/word review state locally.
 progress.sentences=progress.sentences||{};
 progress.words=progress.words||{};
+progress.highlights=progress.highlights||{};
 const sentenceKey=s=>s.zh;
 const tokens=s=>{
  const matches=vocab.filter(v=>v[2]&&v[2].length>1&&s.zh.includes(v[2])).map(v=>v[2]);
  return [...new Set(matches.filter(w=>!matches.some(other=>other!==w&&other.includes(w))))];
 };
+// Segment each sentence into vocabulary words, leaving unmatched characters tappable.
+const splitWords=zh=>{
+ const known=[...new Set(vocab.map(v=>v[2]).filter(Boolean))].sort((a,b)=>b.length-a.length);
+ const parts=[];let i=0;
+ while(i<zh.length){
+  if(/[\\s，。！？、；：,.!?]/.test(zh[i])){parts.push(zh[i++]);continue}
+  const match=known.find(w=>zh.startsWith(w,i));
+  parts.push(match||zh[i]);i+=(match||zh[i-1]).length;
+ }
+ return parts;
+};
+const highlightedIn=s=>Object.keys(progress.highlights).filter(w=>s.zh.includes(w));
 const due=record=>record&&record.due<=Date.now();
 const weight=s=>{
  const r=progress.sentences[sentenceKey(s)];
  const related=tokens(s).reduce((sum,w)=>sum+Math.min(3,(progress.words[w]||{}).missed||0),0);
- return 1+(r?(due(r)?Math.min(9,3+r.missed*2):0):0)+Math.min(5,related*.65);
+ return 1+(r?(due(r)?Math.min(9,3+r.missed*2):0):0)+Math.min(5,related*.65)+Math.min(9,highlightedIn(s).reduce((n,w)=>n+Math.max(1,progress.highlights[w].strength||1),0)*2);
 };
 const weightedChoice=items=>{
  let total=items.reduce((n,s)=>n+weight(s),0),pick=Math.random()*total;
@@ -205,10 +220,48 @@ const recordRecall=(s,correct)=>{
  }
 };
 const current={};
+const markHighlight=(phrase,s)=>{
+ if(!phrase||!s.zh.includes(phrase))return;
+ const entry=progress.highlights[phrase]||{strength:0,created:Date.now()};
+ entry.strength=Math.min(5,entry.strength+1);entry.last=Date.now();
+ progress.highlights[phrase]=entry;save();renderProgress();
+};
+const unmarkHighlight=phrase=>{delete progress.highlights[phrase];save();renderProgress()};
+
 function createWorkspace(id,mode){
  const root=$(id);
- root.innerHTML='<div class="prompt"><div class="eyebrow" data-label></div><h2 data-english></h2><p class="small">Translate aloud before revealing.</p></div><div class="answer hidden" data-answer><div class="hanzi" data-hanzi></div><div class="pinyin" data-pinyin></div></div><div class="actions controls"><button class="primary" data-reveal>Reveal</button><button data-listen>🔊 Listen</button></div><div class="actions controls"><button data-miss>Need practice</button><button class="primary" data-known>Got it</button><button data-next>↻ Another sentence</button></div>';
+ root.innerHTML='<div class="prompt"><div class="eyebrow" data-label></div><h2 data-english></h2><p class="small">Translate aloud before revealing.</p></div><div class="answer hidden" data-answer><div class="hanzi" data-hanzi></div><div class="pinyin" data-pinyin></div><div class="mark-picker"><p>Tap one word, or tap adjacent words to build a phrase. Then save it for extra practice.</p><div class="mark-tokens" data-tokens></div><button class="mark-save" data-save-mark disabled>Highlight for practice</button><div class="mark-feedback" data-mark-feedback aria-live="polite"></div></div></div><div class="actions controls"><button class="primary" data-reveal>Reveal</button><button data-listen>🔊 Listen</button></div><div class="actions controls"><button data-miss>Need practice</button><button class="primary" data-known>Got it</button><button data-next>↻ Another sentence</button></div>';
  const get=(sel)=>root.querySelector(sel);
+ let selected=[];
+ function renderTokens(){
+  const s=current[mode],parts=splitWords(s.zh),area=get("[data-tokens]");
+  area.replaceChildren();
+  parts.forEach((part,i)=>{
+   if(/^[\\s，。！？、；：,.!?]+$/.test(part)){const span=document.createElement("span");span.textContent=part;area.append(span);return}
+   const btn=document.createElement("button");btn.type="button";btn.className="mark-token";
+   btn.textContent=part;btn.setAttribute("aria-pressed",selected.includes(i)?"true":"false");
+   if(selected.includes(i))btn.classList.add("selected");
+   if(Object.keys(progress.highlights).some(w=>w.includes(part)&&s.zh.includes(w)))btn.classList.add("flagged");
+   btn.onclick=()=>{
+    if(selected.includes(i))selected=selected.filter(n=>n!==i);
+    else if(!selected.length)selected=[i];
+    else{
+     const chosen=[...selected,i].sort((a,b)=>a-b);
+     const between=parts.slice(chosen[0],chosen[chosen.length-1]+1);
+     if(between.some(p=>/^[，。！？、；：,.!?]+$/.test(p))){selected=[i]}
+     else selected=Array.from({length:chosen[chosen.length-1]-chosen[0]+1},(_,n)=>chosen[0]+n);
+    }
+    get("[data-save-mark]").disabled=!selected.length;renderTokens();
+   };
+   area.append(btn);
+  });
+  get("[data-save-mark]").textContent=selected.length?"Highlight: "+selected.map(i=>parts[i]).join(""):"Highlight for practice";
+ }
+ get("[data-save-mark]").onclick=()=>{
+  const phrase=selected.map(i=>splitWords(current[mode].zh)[i]).join("");
+  markHighlight(phrase,current[mode]);get("[data-mark-feedback]").textContent="Saved: "+phrase+" — this will appear more often in practice.";
+  selected=[];get("[data-save-mark]").disabled=true;renderTokens();
+ };
  function next(){
   const category=mode==="test"?Math.floor(Math.random()*groups.length):Number($("structure-choice").value);
   const s=randomFor(category);current[mode]=s;
@@ -216,6 +269,7 @@ function createWorkspace(id,mode){
   get("[data-english]").textContent=s.en;
   get("[data-hanzi]").textContent=s.zh;
   get("[data-pinyin]").textContent=s.py;
+  selected=[];get("[data-save-mark]").disabled=true;get("[data-mark-feedback]").textContent="";renderTokens();
   get("[data-answer]").classList.add("hidden");
   get("[data-reveal]").classList.remove("hidden");
  }
@@ -248,8 +302,15 @@ function renderVocab(){
 $("search").oninput=renderVocab;$("category").onchange=renderVocab;renderVocab();
 function renderProgress(){
  $("correct").textContent=progress.correct;$("missed").textContent=progress.missed;
+ const list=$("highlighted-list");if(list){
+  list.replaceChildren();
+  const entries=Object.entries(progress.highlights).sort((a,b)=>b[1].last-a[1].last);
+  if(!entries.length){const p=document.createElement("p");p.className="muted";p.textContent="No highlighted words yet. Reveal an answer and tap the words you want to practice.";list.append(p)}
+  for(const [phrase] of entries){const row=document.createElement("div");row.className="mark-row";const name=document.createElement("strong");name.textContent=phrase;const remove=document.createElement("button");remove.textContent="Remove";remove.onclick=()=>unmarkHighlight(phrase);row.append(name,remove);list.append(row)}
+ }
+
  $("structure-stats").replaceChildren(...groups.map((g,i)=>{const p=progress.byStructure[String(i)]||{correct:0,missed:0};const el=document.createElement("p");el.textContent=g[0]+": "+p.correct+" correct · "+p.missed+" to review";return el}))
 }
-$("reset").onclick=()=>{if(confirm("Reset your practice counters?")){progress={correct:0,missed:0,byStructure:{},sentences:{},words:{}};save();renderProgress()}};
+$("reset").onclick=()=>{if(confirm("Reset your practice counters?")){progress={correct:0,missed:0,byStructure:{},sentences:{},words:{},highlights:{}};save();renderProgress()}};
 renderProgress();
 </script></body></html>
