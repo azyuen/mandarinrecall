@@ -8,7 +8,7 @@
 <section id="test" class="panel"><h2>Random recall test</h2><p class="muted">Everything you've learned, across all six sentence structures. Say the Mandarin before revealing it.</p><div id="test-workspace"></div></section>
 <section id="structures" class="panel hidden"><h2>Practice a structure</h2><label for="structure-choice">Sentence equation</label><select id="structure-choice"></select><p class="structure-hint" id="structure-equation"></p><div id="structure-workspace"></div></section>
 <section id="vocab" class="panel hidden"><h2>Vocabulary library</h2><p class="muted">Search everything you've learned in English, characters, or pinyin.</p><input type="search" id="search" placeholder="Search vocabulary…" aria-label="Search vocabulary"><div style="margin-top:12px"><label for="category">Category</label><select id="category"></select></div><p class="muted" id="vocab-count"></p><div id="vocab-list"></div></section>
-<section id="progress" class="panel hidden"><h2>Your progress</h2><div class="stats"><div>Recalled correctly<br><strong id="correct">0</strong></div><div>Needs practice<br><strong id="missed">0</strong></div></div><h3>Highlighted words and phrases</h3><div id="highlighted-list"></div><h3>By structure</h3><div id="structure-stats"></div><p class="muted">Saved on this device. Existing recall counters are preserved.</p><button id="reset">Reset counters</button></section>
+<section id="progress" class="panel hidden"><h2>Your progress</h2><div class="stats"><div>Recalled correctly<br><strong id="correct">0</strong></div><div>Needs practice<br><strong id="missed">0</strong></div></div><h3>Highlighted words and phrases</h3><div id="highlighted-list"></div><h3>By structure</h3><div id="structure-stats"></div><h3>Share my practice needs</h3><p class="muted">Create a plain-text summary to paste into ChatGPT for personalized Mandarin lessons. It stays on this device until you copy it.</p><button class="primary" id="export-practice">Generate practice summary</button><div id="export-panel" class="hidden"><label for="export-text">Your practice summary</label><textarea id="export-text" rows="12" readonly style="width:100%;font:inherit;padding:10px;border:1px solid #c7d6df;border-radius:9px;margin-top:10px"></textarea><button id="copy-practice">Copy summary</button><p class="small" id="copy-status" aria-live="polite"></p></div><p class="muted">Saved on this device. Existing recall counters are preserved.</p><button id="reset">Reset counters</button></section>
 <div class="footer">Mandarin Recall · Sentence equations · Six structures</div></main><script>
 "use strict";
 const times=[["Today","今天","jīntiān"],["Tomorrow","明天","míngtiān"],["Now","现在","xiànzài"],["This morning","今天早上","jīntiān zǎoshang"],["Tonight","今天晚上","jīntiān wǎnshang"],["These days","这几天","zhè jǐ tiān"]];
@@ -222,7 +222,9 @@ const recordRecall=(s,correct)=>{
 const current={};
 const markHighlight=(phrase,s)=>{
  if(!phrase||!s.zh.includes(phrase))return;
- const entry=progress.highlights[phrase]||{strength:0,created:Date.now()};
+ const entry=progress.highlights[phrase]||{strength:0,created:Date.now(),count:0};
+ entry.count=(entry.count||0)+1;
+ if(!entry.example)entry.example={en:s.en,zh:s.zh,py:s.py};
  entry.strength=Math.min(5,entry.strength+1);entry.last=Date.now();
  progress.highlights[phrase]=entry;save();renderProgress();
 };
@@ -311,6 +313,38 @@ function renderProgress(){
 
  $("structure-stats").replaceChildren(...groups.map((g,i)=>{const p=progress.byStructure[String(i)]||{correct:0,missed:0};const el=document.createElement("p");el.textContent=g[0]+": "+p.correct+" correct · "+p.missed+" to review";return el}))
 }
+const makePracticeSummary=()=>{
+ const lines=["MANDARIN RECALL — PRACTICE SUMMARY","Generated: "+new Date().toLocaleDateString(),"Please use these difficulties to plan my next Mandarin lessons, with new example sentences and short recall tests.",""];
+ const highlights=Object.entries(progress.highlights).sort((a,b)=>(b[1].count||b[1].strength||0)-(a[1].count||a[1].strength||0));
+ lines.push("HIGHLIGHTED WORDS AND PHRASES ("+highlights.length+")");
+ if(!highlights.length)lines.push("None marked yet.");
+ for(const [phrase,r] of highlights){
+  const match=vocab.find(v=>v[2]===phrase);
+  lines.push("- "+phrase+(match?" — "+match[3]+" — "+match[1]:"")+" (highlighted "+(r.count||1)+" time(s))");
+  if(r.example)lines.push("  Example: "+r.example.en+" / "+r.example.zh);
+ }
+ lines.push("","SENTENCES MARKED NEED PRACTICE");
+ const difficult=Object.values(progress.sentences).filter(r=>r.missed>0).sort((a,b)=>(b.missed-b.correct)-(a.missed-a.correct));
+ if(!difficult.length)lines.push("None recorded yet.");
+ for(const r of difficult.slice(0,30))lines.push("- "+r.en+" | "+r.zh+" | "+r.py+" (needs practice: "+r.missed+", got it: "+r.correct+")");
+ if(difficult.length>30)lines.push("... plus "+(difficult.length-30)+" additional sentences.");
+ lines.push("","STRUCTURES (correct / needs practice)");
+ groups.forEach((g,i)=>{const p=progress.byStructure[String(i)]||{correct:0,missed:0};lines.push("- "+g[0]+": "+p.correct+" / "+p.missed)});
+ lines.push("","Total recalled correctly: "+progress.correct,"Total marked needs practice: "+progress.missed,"Note: This summary is based on practice saved in this browser, not other devices.");
+ return lines.join("\\n");
+};
+$("export-practice").onclick=()=>{
+ $("export-text").value=makePracticeSummary();
+ $("export-panel").classList.remove("hidden");
+ $("copy-status").textContent="";
+};
+$("copy-practice").onclick=async()=>{
+ const field=$("export-text");
+ try{
+  if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(field.value);$("copy-status").textContent="Copied! Paste this into our chat.";return}
+ }catch(e){}
+ field.focus();field.select();$("copy-status").textContent="Text selected. Tap Copy in the selection menu, or copy manually.";
+};
 $("reset").onclick=()=>{if(confirm("Reset your practice counters?")){progress={correct:0,missed:0,byStructure:{},sentences:{},words:{},highlights:{}};save();renderProgress()}};
 renderProgress();
 </script></body></html>
