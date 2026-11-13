@@ -178,7 +178,7 @@ const splitWords=zh=>{
  while(i<zh.length){
   if(/[\\s，。！？、；：,.!?]/.test(zh[i])){parts.push(zh[i++]);continue}
   const match=known.find(w=>zh.startsWith(w,i));
-  parts.push(match||zh[i]);i+=(match||zh[i-1]).length;
+  const token=match||zh[i];parts.push(token);i+=token.length;
  }
  return parts;
 };
