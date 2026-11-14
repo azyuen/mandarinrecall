@@ -361,7 +361,9 @@ function createWorkspace(id,mode){
   for(const phrase of phrases){
    if(!progress.highlights[phrase])continue;
    const item=document.createElement("div");item.className="mark-row";
-   const message=document.createElement("span");message.textContent="You've recalled sentences containing “"+phrase+"” correctly 3 times in a row. Remove its highlight?";
+   const message=document.createElement("span");
+   const knownPinyin=vocab.find(v=>v[2]===phrase)?.[3]||({"开":"kāi"}[phrase]||"");
+   message.textContent="You've recalled sentences containing “"+phrase+(knownPinyin?" ("+knownPinyin+")":"")+"” correctly 3 times in a row. Remove its highlight?";
    const buttons=document.createElement("div");buttons.className="actions";
    const remove=document.createElement("button");remove.textContent="Remove highlight";
    const keep=document.createElement("button");keep.textContent="Keep practising";
