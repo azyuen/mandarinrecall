@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#152b40"><title>Mandarin Recall</title><meta name="app-version" content="2026-11-14-update6"><link rel="icon" href="./icon.png?v=20261114b"><link rel="apple-touch-icon" href="./apple-touch-icon.png?v=20261114b"><style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#152b40"><title>Mandarin Recall</title><meta name="app-version" content="2026-11-14-update7"><link rel="icon" href="./icon.png?v=20261114b"><link rel="apple-touch-icon" href="./apple-touch-icon.png?v=20261114b"><style>
 :root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#172b40;background:#f3f6f8}*{box-sizing:border-box}body{margin:0}header{background:#152b40;color:white;padding:24px max(18px,calc((100vw - 780px)/2))}h1{margin:0;font-size:1.65rem}header p{margin:6px 0 0;color:#b9d2df}main{max-width:780px;margin:auto;padding:18px}.tabs{display:flex;gap:8px;margin-bottom:18px}.tabs button{flex:1}.panel{background:white;border:1px solid #dde5e9;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 3px 14px #19304408}button,select,input{font:inherit}button{border:1px solid #c7d6df;background:white;color:#183349;padding:11px 15px;border-radius:10px;cursor:pointer}button.primary,.tabs button.active{background:#176d86;color:white;border-color:#176d86}button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #7bc2e2;outline-offset:2px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}label{display:block;font-weight:650;font-size:.9rem;margin-bottom:5px}select,input[type=search]{width:100%;border:1px solid #c7d6df;background:#fff;padding:11px;border-radius:9px}input[type=checkbox]{width:18px;height:18px;vertical-align:middle}.checkbox{margin:16px 0}.prompt{background:#eef5f7;border-radius:12px;text-align:center;padding:23px 12px;margin:18px 0}.eyebrow{color:#537283;text-transform:uppercase;letter-spacing:.08em;font-size:.75rem;font-weight:700}.prompt h2{font-size:1.4rem;margin:12px 0}.answer{text-align:center;border:1px solid #d3e5e9;border-radius:12px;padding:16px;margin-top:14px}.hanzi{font-size:1.8rem;font-weight:650;margin:8px}.pinyin{font-size:1.05rem;color:#38677c}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}.muted{color:#607988;font-size:.9rem}.hidden{display:none!important}.vocab-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;border-bottom:1px solid #e7edf0;padding:12px 0}.vocab-row:last-child{border:0}.word{font-size:1.2rem;font-weight:650}.category{color:#607988;font-size:.8rem}.count{font-weight:700}.tag{background:#eaf3f6;border-radius:7px;padding:3px 7px;display:inline-block;font-size:.78rem}.footer{font-size:.8rem;color:#627887;text-align:center;padding:12px} @media(max-width:440px){.grid{grid-template-columns:1fr}.panel{padding:16px}header{padding:22px 18px}} 
 </style>
 <style>.structure-hint{color:#38677c;font-size:.88rem;margin:8px 0}.stats{display:flex;gap:12px;flex-wrap:wrap}.stats>div{background:#eef5f7;border-radius:10px;padding:12px;flex:1}.chip{display:inline-block;background:#eaf3f6;border-radius:8px;padding:5px 9px;margin:4px;font-size:.85rem}.controls{display:flex;gap:10px;flex-wrap:wrap}.controls button{flex:1}.prompt h2{line-height:1.4}.small{font-size:.86rem;color:#607988}</style><style>
@@ -8,12 +8,13 @@
 </style><style>:root{color-scheme:light;--bg:#f1f5f8;--surface:#fff;--surface2:#edf4f7;--surface3:#f7fafc;--ink:#172d40;--muted:#607b8c;--line:#d4e2e9;--accent:#167989;--chip:#e6f1f4;--highlight:#fff0c9;--header:#142a40}
 :root[data-theme=dark]{color-scheme:dark;--bg:#101e30;--surface:#192e43;--surface2:#223b51;--surface3:#1c3449;--ink:#f4f9fc;--muted:#aec3d1;--line:#39556a;--accent:#178797;--chip:#29495a;--highlight:#5c4b2d;--header:#101e30}
 body{background:var(--bg);color:var(--ink)}header{background:var(--header);padding:16px max(16px,calc((100vw - 780px)/2))}header h1{font-size:1.24rem}header p{font-size:.78rem;margin:3px 0 0}.brand{display:flex;align-items:center;gap:11px}.brand-icon{width:42px;height:42px;border-radius:11px}main{padding:12px}.tabs{gap:5px;margin-bottom:12px}.tabs button{padding:10px 3px;border:0;background:var(--surface2);color:var(--ink);font-size:.84rem;border-radius:10px;min-width:0}.panel{background:var(--surface);border-color:var(--line);box-shadow:none;padding:15px}.panel>h2{font-size:1.2rem;margin:0 0 5px}.intro{margin:0 0 8px;font-size:.82rem}button,select,input,textarea{color:var(--ink)}button{border-color:var(--line);background:var(--surface3);color:var(--ink)}button.primary,.tabs button.active{background:var(--accent);border-color:var(--accent);color:#fff}select,input[type=search],textarea{background:var(--surface3)!important;color:var(--ink)!important;border-color:var(--line)!important}.prompt{background:var(--surface2);margin:12px 0;padding:24px 12px;border-radius:15px}.prompt h2{font-size:1.48rem;margin:14px 0}.eyebrow,.small,.muted,.category,.footer,.structure-hint,.pinyin{color:var(--muted)}.prompt .small{margin:12px 0 0}.answer{border-color:var(--line);background:var(--surface3);padding:12px}.actions{margin-top:10px;gap:8px}.controls button{min-width:0;padding:12px 9px}.review-section{background:var(--surface3);border-color:var(--line);padding:12px;margin-top:12px}.review-section h3,.mark-picker h3{font-size:.91rem}.review-section .actions{margin-top:9px}.review-section [data-next]{border:0;background:transparent;color:var(--muted);padding:7px;font-size:.82rem}.mark-picker{border-color:var(--line)}.mark-token{background:var(--surface);color:var(--ink);border-color:var(--line)}.mark-token.selected,.mark-save,.mark-list button{background:var(--highlight);color:var(--ink);border-color:var(--line)}.mark-row,.vocab-row{border-color:var(--line)}.tag,.chip,.stats>div{background:var(--chip);color:var(--ink)}.help-icon{background:transparent;color:var(--muted);border-color:var(--line)}.help-dialog{background:var(--surface);color:var(--ink);border-color:var(--line)}.settings-card{padding:12px;border:1px solid var(--line);border-radius:13px;background:var(--surface3);margin:12px 0 20px}.settings-card h3{margin:0 0 9px}.settings-card p{font-size:.78rem;margin:8px 0 0}.settings-card select{width:100%}
-@media(max-width:440px){header{padding:14px 16px}main{padding:11px}.panel{padding:13px}.prompt{padding:22px 10px}.review-section{padding:10px}.review-section .controls{flex-wrap:nowrap}.review-section .controls button{font-size:.9rem}.brand-icon{width:40px;height:40px}}</style></head><body><header><div class="brand"><img src="./apple-touch-icon.png?v=20261114b" alt="" class="brand-icon"><div><h1>Mandarin Recall</h1><p>Learn · Recall · Speak</p></div></div></header><main>
-<nav class="tabs" aria-label="App tabs"><button class="active" data-tab="test">Test</button><button data-tab="structures">Structures</button><button data-tab="vocab">Words</button><button data-tab="progress">Progress</button></nav>
+@media(max-width:440px){header{padding:14px 16px}main{padding:11px}.panel{padding:13px}.prompt{padding:22px 10px}.review-section{padding:10px}.review-section .controls{flex-wrap:nowrap}.review-section .controls button{font-size:.9rem}.brand-icon{width:40px;height:40px}}</style><style>.tabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}.tabs button{font-size:.76rem;padding:10px 1px}.history-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:14px 0}.history-stats>div{background:var(--surface2);border:1px solid var(--line);padding:13px;border-radius:12px;display:flex;flex-direction:column;gap:4px}.history-stats strong{font-size:1.65rem;color:var(--ink)}.history-stats span{font-size:.78rem;color:var(--muted)}.history-calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;margin:12px 0 22px}.history-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:var(--surface2);border:1px solid var(--line);border-radius:8px;font-size:.75rem;color:var(--muted)}.history-day.active{background:var(--accent);color:#fff;border-color:var(--accent)}.history-entry{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding:11px 0}.history-entry strong{font-size:.88rem}.history-entry .muted{font-size:.78rem;margin-top:3px}.history-entry small{white-space:nowrap;color:var(--muted);font-size:.73rem}@media(max-width:380px){.tabs button{font-size:.69rem}}</style></head><body><header><div class="brand"><img src="./apple-touch-icon.png?v=20261114b" alt="" class="brand-icon"><div><h1>Mandarin Recall</h1><p>Learn · Recall · Speak</p></div></div></header><main>
+<nav class="tabs" aria-label="App tabs"><button class="active" data-tab="test">Test</button><button data-tab="structures">Structures</button><button data-tab="vocab">Words</button><button data-tab="progress">Progress</button><button data-tab="history">History</button></nav>
 <section id="test" class="panel"><h2>Random recall</h2><p class="muted intro">Practise across all six sentence structures.</p><div id="test-workspace"></div></section>
 <section id="structures" class="panel hidden"><h2>Practice a structure</h2><label for="structure-choice">Sentence equation</label><select id="structure-choice"></select><p class="structure-hint" id="structure-equation"></p><div id="structure-workspace"></div></section>
 <section id="vocab" class="panel hidden"><h2>Vocabulary library</h2><p class="muted">Search everything you've learned in English, characters, or pinyin.</p><input type="search" id="search" placeholder="Search vocabulary…" aria-label="Search vocabulary"><div style="margin-top:12px"><label for="category">Category</label><select id="category"></select></div><p class="muted" id="vocab-count"></p><div id="vocab-list"></div></section>
 <section id="progress" class="panel hidden"><h2>Your progress</h2><div class="settings-card"><h3>Appearance</h3><label for="appearance-mode">Theme</label><select id="appearance-mode"><option value="system">Match iPhone settings</option><option value="light">Light</option><option value="dark">Dark</option></select><p class="muted">System follows your iPhone appearance automatically.</p></div><div class="stats"><div>Recalled correctly<br><strong id="correct">0</strong></div><div>Needs practice<br><strong id="missed">0</strong></div></div><h3>Highlighted words and phrases</h3><p class="muted">Individual words you selected for extra practice. Remove a highlight here when you no longer need it.</p><div id="highlighted-list"></div><h3>Whole-sentence recall by structure</h3><p class="muted">These counts come from Need practice and Got it on complete sentences.</p><div id="structure-stats"></div><h3>Share my practice needs</h3><p class="muted">Create a plain-text summary to paste into ChatGPT for personalized Mandarin lessons. It stays on this device until you copy it.</p><button class="primary" id="export-practice">Generate practice summary</button><div id="export-panel" class="hidden"><label for="export-text">Your practice summary</label><textarea id="export-text" rows="12" readonly style="width:100%;font:inherit;padding:10px;border:1px solid #c7d6df;border-radius:9px;margin-top:10px"></textarea><button id="copy-practice">Copy summary</button><p class="small" id="copy-status" aria-live="polite"></p></div><p class="muted">Saved on this device. Existing recall counters are preserved.</p><button id="reset">Reset counters</button></section>
+<section id="history" class="panel hidden"><h2>Practice history</h2><p class="muted intro">Your activity and streaks, saved on this device.</p><div class="history-stats" id="history-stats"></div><h3>Last 28 days</h3><div id="history-calendar" class="history-calendar" aria-label="Daily practice activity"></div><h3>Recent activity</h3><div id="history-log"></div><p class="muted" style="font-size:.78rem">Tracking starts with this update. Earlier recall totals remain in Progress, but past practice dates cannot be reconstructed.</p></section>
 <div class="footer">Mandarin Recall · Sentence equations · Six structures<br><button type="button" id="check-update" style="margin-top:10px;padding:7px 12px;font-size:.8rem">Check for updates</button><span id="update-status" role="status" style="display:block;margin-top:6px"></span></div></main><script>
 "use strict";
 const appearanceKey="mandarin-recall-appearance";
@@ -217,6 +218,52 @@ const save=()=>{try{localStorage.setItem(storageKey,JSON.stringify(progress))}ca
 progress.sentences=progress.sentences||{};
 progress.words=progress.words||{};
 progress.highlights=progress.highlights||{};
+progress.history=progress.history||{days:{},events:[]};
+const practiceDate=(date=new Date())=>date.getFullYear()+"-"+String(date.getMonth()+1).padStart(2,"0")+"-"+String(date.getDate()).padStart(2,"0");
+const dateFromKey=key=>new Date(key+"T12:00:00");
+const dateOffset=(date,days)=>{const d=new Date(date);d.setDate(d.getDate()+days);return d};
+const weekStart=date=>{const d=new Date(date);d.setHours(12,0,0,0);d.setDate(d.getDate()-((d.getDay()+6)%7));return practiceDate(d)};
+function logPractice(type,s,phrase){
+ const date=practiceDate(),history=progress.history;
+ const day=history.days[date]||{total:0,correct:0,missed:0,highlight:0};
+ day.total++;day[type]=(day[type]||0)+1;history.days[date]=day;
+ history.events.unshift({date,time:Date.now(),type,zh:s.zh,en:s.en,phrase:phrase||""});
+ if(history.events.length>300)history.events.length=300;
+}
+function renderHistory(){
+ const h=progress.history,days=h.days,keys=Object.keys(days).filter(k=>days[k].total>0).sort();
+ const today=new Date(),todayKey=practiceDate(today),yesterday=practiceDate(dateOffset(today,-1));
+ let daily=0;let cursor=keys.includes(todayKey)?todayKey:yesterday;
+ while(days[cursor]&&days[cursor].total>0){daily++;cursor=practiceDate(dateOffset(dateFromKey(cursor),-1))}
+ const activeWeeks=new Set(keys.map(k=>weekStart(dateFromKey(k))));
+ let weekly=0;let w=weekStart(today);
+ if(!activeWeeks.has(w))w=weekStart(dateOffset(dateFromKey(w),-7));
+ while(activeWeeks.has(w)){weekly++;w=weekStart(dateOffset(dateFromKey(w),-7))}
+ const totals=Object.values(days).reduce((a,d)=>({total:a.total+d.total,correct:a.correct+(d.correct||0),missed:a.missed+(d.missed||0),highlight:a.highlight+(d.highlight||0)}),{total:0,correct:0,missed:0,highlight:0});
+ const stats=document.getElementById("history-stats");stats.replaceChildren();
+ for(const [value,label] of [[keys.length,"Days practised"],[daily,"Daily streak 🔥"],[weekly,"Weekly streak"],[totals.total,"Recall actions"],[totals.correct,"Perfect sentences"],[totals.highlight,"Words highlighted"]]){
+  const box=document.createElement("div");const strong=document.createElement("strong");strong.textContent=value;
+  const small=document.createElement("span");small.textContent=label;box.append(strong,small);stats.append(box);
+ }
+ const cal=document.getElementById("history-calendar");cal.replaceChildren();
+ for(let i=27;i>=0;i--){
+  const date=practiceDate(dateOffset(today,-i)),count=days[date]?.total||0;
+  const cell=document.createElement("div");cell.className="history-day"+(count?" active":"");
+  cell.title=date+": "+count+" practice action"+(count===1?"":"s");
+  cell.setAttribute("aria-label",cell.title);cell.textContent=String(Number(date.slice(-2)));cal.append(cell);
+ }
+ const log=document.getElementById("history-log");log.replaceChildren();
+ if(!h.events.length){const p=document.createElement("p");p.className="muted";p.textContent="No activity logged yet. Rate a sentence or save a highlight to begin.";log.append(p)}
+ for(const e of h.events.slice(0,35)){
+  const row=document.createElement("div");row.className="history-entry";
+  const main=document.createElement("div");const label=document.createElement("strong");
+  label.textContent=e.type==="correct"?"✓ Perfect recall":e.type==="missed"?"↻ Needs practice":"★ Highlighted "+e.phrase;
+  const detail=document.createElement("div");detail.className="muted";detail.textContent=e.zh+" · "+e.en;
+  main.append(label,detail);
+  const time=document.createElement("small");time.textContent=new Date(e.time).toLocaleDateString(undefined,{month:"short",day:"numeric"});
+  row.append(main,time);log.append(row);
+ }
+}
 const sentenceKey=s=>s.zh;
 const tokens=s=>{
  const matches=vocab.filter(v=>v[2]&&v[2].length>1&&s.zh.includes(v[2])).map(v=>v[2]);
@@ -279,7 +326,7 @@ const markHighlight=(phrase,s)=>{
  entry.count=(entry.count||0)+1;
  if(!entry.example)entry.example={en:s.en,zh:s.zh,py:s.py};
  entry.strength=Math.min(5,entry.strength+1);entry.streak=0;entry.suggested=false;entry.last=Date.now();
- progress.highlights[phrase]=entry;save();renderProgress();
+ progress.highlights[phrase]=entry;logPractice("highlight",s,phrase);save();renderProgress();renderHistory();
 };
 const unmarkHighlight=phrase=>{delete progress.highlights[phrase];save();renderProgress()};
 const masteryThreshold=3;
@@ -369,7 +416,7 @@ function createWorkspace(id,mode){
   if(!("speechSynthesis" in window))return;
   speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(current[mode].zh);u.lang="zh-CN";u.rate=.75;speechSynthesis.speak(u);
  };
- function mark(correct){const s=current[mode];const mastery=updateHighlightMastery(s,correct);progress[correct?"correct":"missed"]++;const key=String(s.category);const p=progress.byStructure[key]||{correct:0,missed:0};p[correct?"correct":"missed"]++;progress.byStructure[key]=p;recordRecall(s,correct);save();renderProgress();next();showMasterySuggestions(mastery);}
+ function mark(correct){const s=current[mode];const mastery=updateHighlightMastery(s,correct);progress[correct?"correct":"missed"]++;const key=String(s.category);const p=progress.byStructure[key]||{correct:0,missed:0};p[correct?"correct":"missed"]++;progress.byStructure[key]=p;recordRecall(s,correct);logPractice(correct?"correct":"missed",s);save();renderProgress();renderHistory();next();showMasterySuggestions(mastery);}
  get("[data-known]").onclick=()=>mark(true);
  get("[data-miss]").onclick=()=>mark(false);
  return next;
@@ -379,7 +426,7 @@ const nextStructure=createWorkspace("structure-workspace","structures");
 groups.forEach((g,i)=>$("structure-choice").add(new Option((i+1)+". "+g[0],i)));
 $("structure-choice").onchange=()=>{$("structure-equation").textContent=groups[Number($("structure-choice").value)][1];nextStructure()};
 $("structure-choice").onchange();nextTest();
-document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{document.querySelectorAll("[data-tab]").forEach(x=>x.classList.toggle("active",x===b));["test","structures","vocab","progress"].forEach(id=>$(id).classList.toggle("hidden",id!==b.dataset.tab))});
+document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{document.querySelectorAll("[data-tab]").forEach(x=>x.classList.toggle("active",x===b));["test","structures","vocab","progress","history"].forEach(id=>$(id).classList.toggle("hidden",id!==b.dataset.tab))});
 const categories=["All",...new Set(vocab.map(v=>v[0]))];
 categories.forEach((c,i)=>$("category").add(new Option(c,i)));
 // Normalize pinyin so tone marks and tone numbers do not affect vocabulary searches.
@@ -455,6 +502,6 @@ $("copy-practice").onclick=async()=>{
  }catch(e){}
  field.focus();field.select();$("copy-status").textContent="Text selected. Tap Copy in the selection menu, or copy manually.";
 };
-$("reset").onclick=()=>{if(confirm("Reset your practice counters?")){progress={correct:0,missed:0,byStructure:{},sentences:{},words:{},highlights:{}};save();renderProgress()}};
-renderProgress();
+$("reset").onclick=()=>{if(confirm("Reset your practice counters?")){progress={correct:0,missed:0,byStructure:{},sentences:{},words:{},highlights:{},history:progress.history};save();renderProgress();renderHistory()}};
+renderProgress();renderHistory();
 </script></body></html>
