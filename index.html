@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#152b40"><title>Mandarin Recall</title><meta name="app-version" content="2026-11-14-update3"><link rel="icon" href="./icon.png"><link rel="apple-touch-icon" href="./apple-touch-icon.png"><style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#152b40"><title>Mandarin Recall</title><meta name="app-version" content="2026-11-14-update4"><link rel="icon" href="./icon.png"><link rel="apple-touch-icon" href="./apple-touch-icon.png"><style>
 :root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#172b40;background:#f3f6f8}*{box-sizing:border-box}body{margin:0}header{background:#152b40;color:white;padding:24px max(18px,calc((100vw - 780px)/2))}h1{margin:0;font-size:1.65rem}header p{margin:6px 0 0;color:#b9d2df}main{max-width:780px;margin:auto;padding:18px}.tabs{display:flex;gap:8px;margin-bottom:18px}.tabs button{flex:1}.panel{background:white;border:1px solid #dde5e9;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 3px 14px #19304408}button,select,input{font:inherit}button{border:1px solid #c7d6df;background:white;color:#183349;padding:11px 15px;border-radius:10px;cursor:pointer}button.primary,.tabs button.active{background:#176d86;color:white;border-color:#176d86}button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #7bc2e2;outline-offset:2px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}label{display:block;font-weight:650;font-size:.9rem;margin-bottom:5px}select,input[type=search]{width:100%;border:1px solid #c7d6df;background:#fff;padding:11px;border-radius:9px}input[type=checkbox]{width:18px;height:18px;vertical-align:middle}.checkbox{margin:16px 0}.prompt{background:#eef5f7;border-radius:12px;text-align:center;padding:23px 12px;margin:18px 0}.eyebrow{color:#537283;text-transform:uppercase;letter-spacing:.08em;font-size:.75rem;font-weight:700}.prompt h2{font-size:1.4rem;margin:12px 0}.answer{text-align:center;border:1px solid #d3e5e9;border-radius:12px;padding:16px;margin-top:14px}.hanzi{font-size:1.8rem;font-weight:650;margin:8px}.pinyin{font-size:1.05rem;color:#38677c}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}.muted{color:#607988;font-size:.9rem}.hidden{display:none!important}.vocab-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;border-bottom:1px solid #e7edf0;padding:12px 0}.vocab-row:last-child{border:0}.word{font-size:1.2rem;font-weight:650}.category{color:#607988;font-size:.8rem}.count{font-weight:700}.tag{background:#eaf3f6;border-radius:7px;padding:3px 7px;display:inline-block;font-size:.78rem}.footer{font-size:.8rem;color:#627887;text-align:center;padding:12px} @media(max-width:440px){.grid{grid-template-columns:1fr}.panel{padding:16px}header{padding:22px 18px}} 
 </style>
 <style>.structure-hint{color:#38677c;font-size:.88rem;margin:8px 0}.stats{display:flex;gap:12px;flex-wrap:wrap}.stats>div{background:#eef5f7;border-radius:10px;padding:12px;flex:1}.chip{display:inline-block;background:#eaf3f6;border-radius:8px;padding:5px 9px;margin:4px;font-size:.85rem}.controls{display:flex;gap:10px;flex-wrap:wrap}.controls button{flex:1}.prompt h2{line-height:1.4}.small{font-size:.86rem;color:#607988}</style><style>
@@ -381,7 +381,27 @@ function renderProgress(){
   list.replaceChildren();
   const entries=Object.entries(progress.highlights).sort((a,b)=>b[1].last-a[1].last);
   if(!entries.length){const p=document.createElement("p");p.className="muted";p.textContent="No highlighted words yet. Reveal an answer and tap the words you want to practice.";list.append(p)}
-  for(const [phrase] of entries){const row=document.createElement("div");row.className="mark-row";const name=document.createElement("strong");name.textContent=phrase;const remove=document.createElement("button");remove.textContent="Remove";remove.onclick=()=>unmarkHighlight(phrase);row.append(name,remove);list.append(row)}
+  for(const [phrase,entry] of entries){
+   const row=document.createElement("div");row.className="mark-row";
+   const details=document.createElement("div");details.style.minWidth="0";
+   const name=document.createElement("strong");name.textContent=phrase;details.append(name);
+   const match=vocab.find(v=>v[2]===phrase);
+   if(match){
+    const translation=document.createElement("div");translation.className="muted";
+    translation.textContent=match[3]+" · "+match[1];details.append(translation);
+   }else if(entry.example){
+    // User-selected combinations may not be standalone vocabulary entries.
+    // Show the original sentence as context instead of inventing a translation.
+    const context=document.createElement("div");context.className="muted";
+    context.textContent="In context: "+entry.example.py+" · "+entry.example.en;
+    details.append(context);
+   }else{
+    const context=document.createElement("div");context.className="muted";
+    context.textContent="Custom phrase";details.append(context);
+   }
+   const remove=document.createElement("button");remove.textContent="Remove";
+   remove.onclick=()=>unmarkHighlight(phrase);row.append(details,remove);list.append(row);
+  }
  }
 
  $("structure-stats").replaceChildren(...groups.map((g,i)=>{const p=progress.byStructure[String(i)]||{correct:0,missed:0};const el=document.createElement("p");el.textContent=g[0]+": "+p.correct+" correct · "+p.missed+" to review";return el}))
