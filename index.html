@@ -294,9 +294,11 @@ $("structure-choice").onchange();nextTest();
 document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{document.querySelectorAll("[data-tab]").forEach(x=>x.classList.toggle("active",x===b));["test","structures","vocab","progress"].forEach(id=>$(id).classList.toggle("hidden",id!==b.dataset.tab))});
 const categories=["All",...new Set(vocab.map(v=>v[0]))];
 categories.forEach((c,i)=>$("category").add(new Option(c,i)));
+// Normalize pinyin so tone marks and tone numbers do not affect vocabulary searches.
+const normalizePinyin=text=>text.toLowerCase().replace(/ü/g,"v").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[1-5]/g,"");
 function renderVocab(){
- const q=$("search").value.trim().toLowerCase(),cat=categories[Number($("category").value)];
- const rows=vocab.filter(v=>(cat==="All"||v[0]===cat)&&v.slice(1).some(x=>x.toLowerCase().includes(q)));
+ const q=$("search").value.trim().toLowerCase(),normalizedQuery=normalizePinyin(q),cat=categories[Number($("category").value)];
+ const rows=vocab.filter(v=>(cat==="All"||v[0]===cat)&&(v.slice(1).some(x=>x.toLowerCase().includes(q))||normalizePinyin(v[3]).includes(normalizedQuery)));
  $("vocab-count").textContent=rows.length+" words and phrases";
  const root=$("vocab-list");root.replaceChildren();
  for(const [group,en,zh,py] of rows){const row=document.createElement("div");row.className="vocab-row";const left=document.createElement("div"),right=document.createElement("div");const title=document.createElement("div");title.textContent=en;title.style.fontWeight="600";const tag=document.createElement("span");tag.className="category";tag.textContent=group;left.append(title,tag);const hanzi=document.createElement("div");hanzi.className="word";hanzi.textContent=zh;const pinyin=document.createElement("div");pinyin.className="muted";pinyin.textContent=py;right.append(hanzi,pinyin);row.append(left,right);root.append(row)}
