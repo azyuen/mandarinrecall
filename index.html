@@ -225,16 +225,41 @@ const markHighlight=(phrase,s)=>{
  const entry=progress.highlights[phrase]||{strength:0,created:Date.now(),count:0};
  entry.count=(entry.count||0)+1;
  if(!entry.example)entry.example={en:s.en,zh:s.zh,py:s.py};
- entry.strength=Math.min(5,entry.strength+1);entry.last=Date.now();
+ entry.strength=Math.min(5,entry.strength+1);entry.streak=0;entry.suggested=false;entry.last=Date.now();
  progress.highlights[phrase]=entry;save();renderProgress();
 };
 const unmarkHighlight=phrase=>{delete progress.highlights[phrase];save();renderProgress()};
+const masteryThreshold=3;
+const updateHighlightMastery=(s,correct)=>{
+ const ready=[];
+ for(const [phrase,entry] of Object.entries(progress.highlights)){
+  if(!s.zh.includes(phrase))continue;
+  entry.streak=correct?(entry.streak||0)+1:0;
+  if(!correct)entry.suggested=false;
+  if(correct&&entry.streak>=masteryThreshold&&!entry.suggested){entry.suggested=true;ready.push(phrase)}
+ }
+ return ready;
+};
 
 function createWorkspace(id,mode){
  const root=$(id);
- root.innerHTML='<div class="prompt"><div class="eyebrow" data-label></div><h2 data-english></h2><p class="small">Translate aloud before revealing.</p></div><div class="answer hidden" data-answer><div class="hanzi" data-hanzi></div><div class="pinyin" data-pinyin></div><div class="mark-picker"><p>Tap one word, or tap adjacent words to build a phrase. Then save it for extra practice.</p><div class="mark-tokens" data-tokens></div><button class="mark-save" data-save-mark disabled>Highlight for practice</button><div class="mark-feedback" data-mark-feedback aria-live="polite"></div></div></div><div class="actions controls"><button class="primary" data-reveal>Reveal</button><button data-listen>🔊 Listen</button></div><div class="actions controls"><button data-miss>Need practice</button><button class="primary" data-known>Got it</button><button data-next>↻ Another sentence</button></div>';
+ root.innerHTML='<div data-mastery aria-live="polite"></div><div class="prompt"><div class="eyebrow" data-label></div><h2 data-english></h2><p class="small">Translate aloud before revealing.</p></div><div class="answer hidden" data-answer><div class="hanzi" data-hanzi></div><div class="pinyin" data-pinyin></div><div class="mark-picker"><p>Tap one word, or tap adjacent words to build a phrase. Then save it for extra practice.</p><div class="mark-tokens" data-tokens></div><button class="mark-save" data-save-mark disabled>Highlight for practice</button><div class="mark-feedback" data-mark-feedback aria-live="polite"></div></div></div><div class="actions controls"><button class="primary" data-reveal>Reveal</button><button data-listen>🔊 Listen</button></div><div class="actions controls"><button data-miss>Need practice</button><button class="primary" data-known>Got it</button><button data-next>↻ Another sentence</button></div>';
  const get=(sel)=>root.querySelector(sel);
  let selected=[];
+ function showMasterySuggestions(phrases){
+  const area=get("[data-mastery]");area.replaceChildren();
+  for(const phrase of phrases){
+   if(!progress.highlights[phrase])continue;
+   const item=document.createElement("div");item.className="mark-row";
+   const message=document.createElement("span");message.textContent="You've recalled sentences containing “"+phrase+"” correctly 3 times in a row. Remove its highlight?";
+   const buttons=document.createElement("div");buttons.className="actions";
+   const remove=document.createElement("button");remove.textContent="Remove highlight";
+   const keep=document.createElement("button");keep.textContent="Keep practising";
+   remove.onclick=()=>{unmarkHighlight(phrase);item.remove()};
+   keep.onclick=()=>item.remove();
+   buttons.append(remove,keep);item.append(message,buttons);area.append(item);
+  }
+ }
  function renderTokens(){
   const s=current[mode],parts=splitWords(s.zh),area=get("[data-tokens]");
   area.replaceChildren();
@@ -281,7 +306,7 @@ function createWorkspace(id,mode){
   if(!("speechSynthesis" in window))return;
   speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(current[mode].zh);u.lang="zh-CN";u.rate=.75;speechSynthesis.speak(u);
  };
- function mark(correct){const s=current[mode];progress[correct?"correct":"missed"]++;const key=String(s.category);const p=progress.byStructure[key]||{correct:0,missed:0};p[correct?"correct":"missed"]++;progress.byStructure[key]=p;recordRecall(s,correct);save();renderProgress();next();}
+ function mark(correct){const s=current[mode];const mastery=updateHighlightMastery(s,correct);progress[correct?"correct":"missed"]++;const key=String(s.category);const p=progress.byStructure[key]||{correct:0,missed:0};p[correct?"correct":"missed"]++;progress.byStructure[key]=p;recordRecall(s,correct);save();renderProgress();next();showMasterySuggestions(mastery);}
  get("[data-known]").onclick=()=>mark(true);
  get("[data-miss]").onclick=()=>mark(false);
  return next;
