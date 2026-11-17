@@ -65,6 +65,7 @@ vocab.push(...[["Time","Just now","刚刚","gānggāng"],["Time","Every week","�
 vocab.push(...[["Actions","Arrive / reach; result complement indicating success","到","dào"],["Actions","Successfully pick up / meet someone","接到","jiē dào"],["Actions","Take a shower / bathe","洗澡","xǐ zǎo"],["Actions","Shower","洗个澡","xǐ ge zǎo"],["Actions","Pick up my son successfully","接到儿子","jiē dào érzi"],["Grammar","After picking up my son","接到儿子以后","jiē dào érzi yǐhòu"],["People","We / us","我们","wǒmen"]].filter(item=>!vocab.some(existing=>existing[2]===item[2])));
 // Sleep vocabulary: avoid duplicates from previous lessons.
 vocab.push(...[["Actions","Sleep / go to bed","睡觉","shuì jiào"]].filter(v=>!vocab.some(x=>x[2]===v[2])));
+vocab.push(...[["Actions","Pick up my son","接儿子","jiē érzi"]].filter(v=>!vocab.some(x=>x[2]===v[2])));
 const conversationPatterns=[
 ["Where / location","Where do you live?","你住在哪儿？","Nǐ zhù zài nǎr?"],
 ["Where / location","I live in Vermont.","我住在佛蒙特。","Wǒ zhù zài Fóméngtè."],
